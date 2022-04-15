@@ -32,9 +32,9 @@ fn main() {
 
 } // end of main
 ////////////////////////////////////////////////////////////////
-fn heap_sort(x_inout:&mut Vec<i32>){
+fn heap_sort(x:&mut Vec<i32>){
     
-    let nx = x_inout.len();
+    let nx = x.len();
     let nxf:f32=(nx) as f32;
     let kf = nxf.log2()+1.0;
     let k = kf.floor();
@@ -47,11 +47,8 @@ fn heap_sort(x_inout:&mut Vec<i32>){
                 el.push(m as i32);
         }
 
-    let mut x_result = vec![0;nx];
-    let mut x = vec![std::i32::MIN;nx+1];   
-        // x_inout -> xにnx個コピーする。 
-        x[0..nx].copy_from_slice(&x_inout[0..nx]); // https://stackoverflow.com/questions/66609964/rust-looking-for-a-c-memcpy-equivalent  
-    
+   x.push(std::i32::MIN); //アルゴリズム的に１つ増やす
+   let mut x_result = vec![0;nx];
    for u in 0..nx{
         for l in {1..el.len()}.rev(){
             for k in 0..el[l-1]{
@@ -72,7 +69,8 @@ fn heap_sort(x_inout:&mut Vec<i32>){
         x[0] = std::i32::MIN; // 最小値https://qiita.com/mkimura81/items/03f2ed423905f6b39935
     }
         // x_result -> xにnx個コピーする。 
-        x_inout[0..nx].copy_from_slice(&x_result[0..nx]); // https://stackoverflow.com/questions/66609964/rust-looking-for-a-c-memcpy-equivalent  
+        x.pop(); //１つ増やした分、減らす。
+        x[0..nx].copy_from_slice(&x_result[0..nx]); // https://stackoverflow.com/questions/66609964/rust-looking-for-a-c-memcpy-equivalent  
 
 } // end of heap_sort()
 
