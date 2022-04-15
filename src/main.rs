@@ -45,10 +45,9 @@ fn main() {
         println!("sort前={}, sort結果={}", x0[n], x[n]);
     }
 
-    // 全部"True！"なら良い。
-    for n in 0..x0.len()-1{
-        assert!(x[n] >= x[n+1]);
-    }
+    // Rustのソートと比較する。x
+    x0.sort_by(|a, b| b.cmp(a));
+        assert_eq!(x0,x[0..N]);
 
 }
 ////////////////////////////////////////////////////////////////
@@ -77,6 +76,3 @@ fn heap_sort(x:&mut Vec<i32>, el:&Vec<i32>, nx:usize){
         x[0..nx].copy_from_slice(&x_result[0..nx]); // https://stackoverflow.com/questions/66609964/rust-looking-for-a-c-memcpy-equivalent  
 
 } // end of heap_sort()
-
-
-
