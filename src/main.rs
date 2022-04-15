@@ -38,30 +38,30 @@ fn heap_sort(x:&mut Vec<i32>){
     let nxf:f32=(nx) as f32;
     let kf = nxf.log2()+1.0;
     let k = kf.floor();
-    let mut el = Vec::<i32>::new(); // メモリ上の階層位置
+    let mut el= Vec::<usize>::new(); // メモリ上の階層位置
             
-        for n in 0..k as i32{   // el = [1,2,4,8,16,....]を作る。
-            let m ;
+        for n in 0..k as usize{   // el = [1,2,4,8,16,....]を作る。
+            let m:i32 ;
             let two:i32 =2;
                 m = two.pow(n.try_into().unwrap());
-                el.push(m as i32);
+                el.push(m as usize);
         }
 
    x.push(std::i32::MIN); //アルゴリズム的に１つ増やす
    let mut x_result = vec![0;nx];
    for u in 0..nx{
         for l in {1..el.len()}.rev(){
-            for k in 0..el[l-1]{
+            for k in 0..el[l-1] as usize{
               let m=2*k;
               let n=m+1;
                 
-                if (el[l]+n-1) > nx as i32 {break;} // xの個数以上はやらない
+                if (el[l] as usize+n-1) > nx {break;} // xの個数以上はやらない
 
-                if x[(el[l]+m-1) as usize] < x[(el[l]+n-1) as usize]{ // 左が大きいにする
-                    x.swap((el[l]+m-1) as usize, (el[l]+n-1) as usize);
+                if x[el[l]+m-1] < x[el[l]+n-1]{ // 左が大きいにする
+                    x.swap(el[l]+m-1, el[l]+n-1);
                 }
-                if x[(el[l-1]+k-1) as usize] < x[(el[l]+m-1) as usize]{ // 上が大きいにする。
-                    x.swap((el[l-1]+k-1) as usize, (el[l]+m-1) as usize);
+                if x[el[l-1]+k-1] < x[el[l]+m-1]{ // 上が大きいにする。
+                    x.swap(el[l-1]+k-1, el[l]+m-1);
                 }
             }
         }
